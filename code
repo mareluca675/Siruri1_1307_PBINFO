@@ -1,0 +1,73 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int p[1001];
+bool e[1001];
+vector<int> prim;
+
+void ciur(){
+    p[0] = 1;
+    p[1] = 1;
+    
+    for(int i = 2; i <= 1000; i ++){
+        if(p[i] == 0){
+            prim.push_back(i);
+            
+            for(int j = 2; i * j <= 1000; j ++){
+                p[i * j] = 1;
+            }
+        }   
+    }
+}
+
+vector<int> y;
+
+int main()
+{
+    int n;
+    cin >> n;
+    
+    vector<int> x(n);
+    ciur();
+    
+    for(auto& i : x){
+        cin >> i;
+        
+        for(int d = 0; prim[d] * prim[d] <= i; d ++){
+            int exponent = 0;
+            
+            while(i % prim[d] == 0){
+                exponent ++;
+                i /= prim[d];
+            }
+            
+            if(exponent == 1 and e[prim[d]] == 0){
+                e[prim[d]] = 1;
+                y.push_back(prim[d]);
+            }
+        }
+        
+        if(i != 1 and e[i] == 0){
+            y.push_back(i);
+            e[i] = 1;
+        }
+        
+        //cout << i << '\n';
+    }
+    
+    if(!y.empty()){
+    
+    sort(y.begin(), y.end());
+    
+    for(auto& i : y){
+        cout << i << ' '; 
+    }
+    
+    }
+    else{
+        cout << "Sirul Y este vid.";
+    }
+
+    return 0;
+}
